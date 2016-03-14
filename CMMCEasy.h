@@ -10,65 +10,45 @@ class CMMC_Blink
 {
   private:
     uint8_t _ledPin = 255;
-    Ticker _ticker;
+    Ticker *_ticker;
 
 
 	public:
-    static void _toggle() {
-        int state = digitalRead(16);  // get the current state of GPIOpin pin
-        digitalWrite(16, !state);     // set pin to the opposite state
-        Serial.println(state);
+
+    CMMC_Blink() {
+      _ticker = new Ticker;
+    }
+
+    ~CMMC_Blink() {
+      delete _ticker;
+      _ticker = NULL;
     }
 
     void setPin(uint8_t pin) {
+      pinMode(_ledPin, OUTPUT);
+      digitalWrite(_ledPin, LOW);
       _ledPin = pin;
     }
-
-    void _setPin(int state) {
-      digitalWrite(1, state);
-    }
-    void myblink(uint32_t ms) {
-        Ticker _ticker;
-        _ticker.detach();
-        pinMode(16, OUTPUT);
-        digitalWrite(16, LOW);
-
-        delay(500);
-        digitalWrite(16, HIGH);
-
-        auto lambda = [](int _pin) {
-            int state = digitalRead(_pin);  // get the current state of GPIOpin pin
-            digitalWrite(_pin, !state);     // set pin to the opposite state
-        };
-
-        auto function  = static_cast<void (*)(int)>(lambda);
-        _ticker.attach_ms(ms, function, 16);
-}
-
 
     void blink(uint8_t ms) {
       Serial.print(_ledPin);
       Serial.print(" ");
       Serial.println(ms);
-      if(_ledPin != 255) {
-        // _ticker.detach();
-
-        pinMode(_ledPin, OUTPUT);
-        digitalWrite(_ledPin, LOW);
-
-        int _nat = this->_ledPin;
+      if(_ledPin < 255) {
+        _ticker->detach();
+        static int _pin = this->_ledPin;
         auto lambda = []() {
-            int state = digitalRead(16);  // get the current state of GPIOpin pin
-            digitalWrite(16, !state);     // set pin to the opposite state
-            Serial.println(state);
+            int state = digitalRead(_pin);  // get the current state of GPIOpin pin
+            digitalWrite(_pin, !state);     // set pin to the opposite state
         };
-        //
         // auto ff  = static_cast<void (*)(int)>(lambda);
-        // _ticker.attach_ms(25, _setPin, _ledPin);
-        Serial.println("ATTACH");
-        _ticker.attach_ms(ms, CMMC_Blink::_toggle);
+        _ticker->attach_ms(ms, lambda);
+      }
+      else {
+        // noop
       }
     }
+
 
 };
 

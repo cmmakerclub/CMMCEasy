@@ -9,11 +9,20 @@ class CMMC_Blink
     unsigned int _ledPin = LED_BUILTIN;
 
 	public:
+
+    void setPin(uint8_t pin) {
+      pinMode(_ledPin, OUTPUT);
+      digitalWrite(_ledPin, LOW);
+      _ledPin = pin;
+    }
+
     Ticker *_ticker;
     CMMC_Blink() {
       _ticker = new Ticker;
     };
+
     void blink(int ms) {
+        _ticker->detach();
         pinMode(_ledPin, OUTPUT);
         digitalWrite(_ledPin, LOW);
         // static int _pin = this->_ledPin;

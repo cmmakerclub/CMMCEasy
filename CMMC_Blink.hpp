@@ -6,7 +6,7 @@
 class CMMC_Blink
 {
   private:
-    unsigned int _ledPin = 0;
+    unsigned int _ledPin = 254;
     Ticker *_ticker;
 
 	public:
@@ -17,11 +17,11 @@ class CMMC_Blink
     }
 
     CMMC_Blink() {
-      _ticker = new Ticker;
+      this->_ticker = new Ticker;
     };
 
     CMMC_Blink(Ticker *ticker) {
-      _ticker = ticker;
+      this->_ticker = ticker;
     };
 
     void blink(int ms, uint8_t pin) {
@@ -30,16 +30,15 @@ class CMMC_Blink
     }
 
     void blink(int ms) {
-        if (_ledPin == 0) return;
-        static int _pin;
-        _ticker->detach();
-        _pin = this->_ledPin;
-        auto lambda = [](int ppp) {
-            int state = digitalRead(ppp);  // get the current state of GPIOpin pin
-            digitalWrite(ppp, !state);     // set pin to the opposite state
+        if (_ledPin == 254) return;
+        static int _pin = this->_ledPin;
+        this->_ticker->detach();
+        auto lambda = []() {
+            int state = digitalRead(_pin);  // get the current state of GPIOpin pin
+            digitalWrite(_pin, !state);     // set pin to the opposite state
         };
-        auto function  = static_cast<void (*)(int)>(lambda);
-        _ticker->attach_ms(ms, function, _pin);
+        // auto function  = static_cast<void (*)(int)>(lambda);
+        this->_ticker->attach_ms(ms, lambda);
       }
 
 };

@@ -8,7 +8,6 @@
 class CMMCEasy
 {
   private:
-    // Ticker *_ticker1;
 
 	public:
     CMMC_Blink blinker;

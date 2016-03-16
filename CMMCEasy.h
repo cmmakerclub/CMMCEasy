@@ -8,19 +8,19 @@
 class CMMCEasy
 {
   private:
-    Ticker *_ticker1;
+    // Ticker *_ticker1;
 
 	public:
-    CMMC_Blink *blinker;
+    CMMC_Blink blinker;
 
     CMMCEasy() {
-      _ticker1 = new Ticker;
-      blinker = new CMMC_Blink(_ticker1);
+      // _ticker1 = new Ticker;
+      // blinker = new CMMC_Blink;
     };
 
     ~CMMCEasy() {
-      delete _ticker1;
-      delete blinker;
+      // delete _ticker1;
+      // delete blinker;
     };
 
 

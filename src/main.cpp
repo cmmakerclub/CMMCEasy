@@ -1,23 +1,25 @@
 #include <Arduino.h>
 #include <Ticker.h>
-// #include "../CMMCEasy.h"
-#include "../CMMC_Blink.hpp"
+#include "../CMMCEasy.h"
+
+// #include "../CMMC_Blink.hpp"
 
 
 void setup() {
   Serial.begin(115200);
   Serial.println("OK");
-  CMMC_Blink blinker;
-  blinker.setPin(LED_BUILTIN);
 
+  // CMMC_Blink blinker;
+  // blinker.setPin(LED_BUILTIN);
+  // blinker.blink(30);
   // delay(1000);
+  // blinker.blink(100);
+  CMMCEasy easy;
 
-  blinker.blink(50);
-  // CMMCEasy easy;
-  // easy.blinker->setPin(LED_BUILTIN);
-  // easy.blinker->blink(500);
-  // delay(2000);
-  // easy.blinker->blink(60);
+  easy.blinker->setPin(LED_BUILTIN);
+  easy.blinker->blink(500);
+  delay(2000);
+  easy.blinker->blink(60);
 
 // CMMC_Blink blinker;
 // blinker.setPin(LED_BUILTIN);

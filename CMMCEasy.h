@@ -4,6 +4,7 @@
 #endif
 #include <Arduino.h>
 #include "./CMMC_Blink.hpp"
+#include "./CMMC_Interval.hpp"
 
 class CMMCEasy
 {
@@ -11,6 +12,7 @@ class CMMCEasy
 
 	public:
     CMMC_Blink blinker;
+    CMMC_Interval interval;
 
     CMMCEasy() {
       // _ticker1 = new Ticker;

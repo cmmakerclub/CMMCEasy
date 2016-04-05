@@ -1,29 +1,43 @@
-#include "CMMCInterval.h"
+#include <Arduino.h>
 
-void HelloWorld();
-void LoveYou();
-
-CMMCInterval myInterval1(1000, HelloWorld);
-CMMCInterval myInterval2(500, LoveYou);
+#include "CMMCEasy.h"
+CMMCEasy easy;
+CMMC_Interval ti;
 
 void setup() {
-  Serial.begin(9600);
-}
+  Serial.begin(115200);
+  Serial.println("OK");
+
+  pinMode(LED_BUILTIN, OUTPUT);
+
+  easy.blinker.init(CMMC_Blink::TYPE_TICKER);
+  easy.blinker.blink(500, LED_BUILTIN);
+  delay(3000);
+  easy.blinker.blink(20, LED_BUILTIN);
+  delay(2000);
+  easy.blinker.blink(500, LED_BUILTIN);
+  delay(1000);
+  easy.blinker.blink(100, LED_BUILTIN);
+  delay(1000);
+  easy.blinker.blink(1000);
+  delay(1000);
+  easy.blinker.blink(100);
+
+  }
+
 
 void loop() {
-  myInterval1.Update();
-  myInterval2.Update();
+  int outside = 0;
+  static int outside_static = 0;
+
+  ti.every_ms(222, [&]() {
+    outside++;
+    outside_static++;
+    Serial.printf("IN SIDE %lu \n", millis());
+    digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+  });
+
+  delay(1000);
+  Serial.printf("outside = %d, outside_static = %d\n", outside, outside_static);
+
 }
-
-void HelloWorld()
-{
-    Serial.println("Helloworld");
-}
-
-void LoveYou()
-{
-    Serial.println("LoveYou");
-}
-
-
-

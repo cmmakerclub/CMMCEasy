@@ -35,6 +35,7 @@ cache:
 
 env:
     - PLATFORMIO_CI_SRC=examples/blinky
+    - PLATFORMIO_CI_SRC=examples/interval
 install:
    - pip install -U platformio
   #  - platformio lib install 19 28 64 66 89 562

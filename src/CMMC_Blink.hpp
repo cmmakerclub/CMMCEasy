@@ -44,6 +44,10 @@ class CMMC_Blink
       this->blink(ms);
     }
 
+    void detach() {
+      this->_ticker->detach();
+    }
+
     void blink(int ms) {
       if (!_initialized) return;
         if (_ledPin == 254) return;
